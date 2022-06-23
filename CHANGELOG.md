@@ -1,3 +1,8 @@
+## 0.2.1
+
+* FIX: using Expanded instead of Flexible for rows
+
+
 ## 0.2.0
 
 * BREAKING: root path change: 'package:flutter_tabler/tabler.dart' -> 'package:flutter_tabler/flutter_tabler.dart'

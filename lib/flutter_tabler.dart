@@ -136,7 +136,7 @@ class Tabler<T> extends StatelessWidget {
 
   Widget _buildCell(TablerColumn column, Widget child) => column.hasWidth
       ? SizedBox(width: column.width, child: child)
-      : Flexible(flex: column.flex, child: child);
+      : Expanded(flex: column.flex, child: child);
 }
 
 class TablerRowBuilder<T> {

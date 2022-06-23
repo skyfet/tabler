@@ -32,6 +32,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   late final TablerController<String> _controller;
   late final List<TablerColumn> _columns;
+  int index = 1;
 
   @override
   void initState() {
@@ -51,9 +52,9 @@ class _MyHomePageState extends State<MyHomePage> {
       TablerColumn(header: const CustomHeader(text: 'Earth 04')),
     ];
     _controller = TablerController(
-      limit: 3,
+      limit: 1,
       onUpdate: _onTableUpdate,
-      initialList: ['Hero 1', 'Hero 2', 'Hero 3'],
+      initialList: List.generate(2, (_) => 'Hero ${index++}'),
       totalCount: 5,
     );
 
@@ -63,7 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<void> _onTableUpdate(int limit, int offset) async {
     await Future.delayed(const Duration(seconds: 2));
     _controller
-      ..appendItems(['Hero 4', 'Hero 5'])
+      ..appendItems(List.generate(limit, (_) => 'Hero ${index++}'))
       ..update();
   }
 
@@ -78,8 +79,6 @@ class _MyHomePageState extends State<MyHomePage> {
           controller: _controller,
           columns: _columns,
           rowBuilder: TablerRowBuilder(
-            height: 100,
-            mainAxisAlignment: MainAxisAlignment.end,
             decoration: BoxDecoration(
               color: Colors.red.withOpacity(0.07),
               border: const Border(
@@ -93,7 +92,7 @@ class _MyHomePageState extends State<MyHomePage> {
               CustomCell(text: item),
               CustomCell(text: item),
               CustomCell(text: item),
-            ].map((w) => Align(child: w)).toList(),
+            ],
           ),
         ),
       ),
