@@ -37,23 +37,23 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     _columns = [
       TablerColumn(
-        header: const CustomHeader(text: 'First'),
+        header: const CustomHeader(text: 'Earth 01'),
         flex: 1,
       ),
       TablerColumn(
-        header: const CustomHeader(text: 'Second'),
+        header: const CustomHeader(text: 'Earth 02'),
         flex: 3,
       ),
       TablerColumn(
-        header: const CustomHeader(text: 'Third'),
+        header: const CustomHeader(text: 'Earth 03'),
         width: 500,
       ),
-      TablerColumn(header: const CustomHeader(text: 'Fourth')),
+      TablerColumn(header: const CustomHeader(text: 'Earth 04')),
     ];
     _controller = TablerController(
       limit: 3,
       onUpdate: _onTableUpdate,
-      initialList: ['Data 1', 'Data 2', 'Data 3'],
+      initialList: ['Hero 1', 'Hero 2', 'Hero 3'],
       totalCount: 5,
     );
 
@@ -61,7 +61,10 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> _onTableUpdate(int limit, int offset) async {
-    _controller.appendItems(['Data 4', 'Data 5']);
+    await Future.delayed(const Duration(seconds: 2));
+    _controller
+      ..appendItems(['Hero 4', 'Hero 5'])
+      ..update();
   }
 
   @override
@@ -75,6 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
           controller: _controller,
           columns: _columns,
           rowBuilder: TablerRowBuilder(
+            height: 100,
             mainAxisAlignment: MainAxisAlignment.end,
             decoration: BoxDecoration(
               color: Colors.red.withOpacity(0.07),
@@ -91,16 +95,16 @@ class _MyHomePageState extends State<MyHomePage> {
               CustomCell(text: item),
             ].map((w) => Align(child: w)).toList(),
           ),
-          loadingWidget: const SizedBox(
-            height: 100 - 32,
-            width: 100 - 32,
-            child: CircularProgressIndicator(),
-          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: const Icon(Icons.add),
+        onPressed: () {
+          _controller
+            ..totalCount = 5
+            ..list = ['Evil 1', 'Evil 2', 'Evil 3', 'Evil 4', 'Evil 5']
+            ..update();
+        },
+        child: const Icon(Icons.refresh),
       ),
     );
   }

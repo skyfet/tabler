@@ -174,7 +174,7 @@ class TablerController<T> extends Cubit<List<T>> {
     List<T>? initialList,
     int? totalCount,
     ScrollController? scrollController,
-  })  : _list = initialList ?? [],
+  })  : list = initialList ?? [],
         totalCount = totalCount ?? 0,
         scrollController = scrollController ?? ScrollController(),
         limit = limit ?? 30,
@@ -186,22 +186,14 @@ class TablerController<T> extends Cubit<List<T>> {
   final ScrollController scrollController;
 
   int totalCount;
-  List<T> _list;
+  List<T> list;
   int limit;
 
-  void appendItems(Iterable<T> items) {
-    _list = [..._list, ...items];
-    emit(_list);
-  }
+  void appendItems(Iterable<T> items) => list = [...list, ...items];
 
-  List<T> get list => _list;
+  void update() => emit(list);
 
-  set list(value) {
-    _list = value;
-    emit(_list);
-  }
-
-  T? itemAt(int index) => _list.length <= index ? null : _list.elementAt(index);
+  T? itemAt(int index) => list.length <= index ? null : list.elementAt(index);
 }
 
 class TablerColumn {
