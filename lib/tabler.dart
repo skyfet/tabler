@@ -207,7 +207,7 @@ class TablerColumn {
           !(flex != null && width != null),
           'Specify either width or flex. You cannot specify both parameters at the same time.',
         ),
-        flex = flex ?? 0,
+        flex = flex ?? 1,
         sorting = defaultSorting ?? TablerSorting.none;
 
   final Widget header;
