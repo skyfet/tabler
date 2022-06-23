@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_tabler/flutter_tabler.dart';
 
@@ -12,9 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: ThemeData.dark(),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
@@ -38,31 +38,31 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     _columns = [
       TablerColumn(
-        header: const CustomHeader(text: 'Earth 01'),
-        flex: 1,
+        header: const CustomHeader(text: '#'),
+        width: 48,
       ),
       TablerColumn(
-        header: const CustomHeader(text: 'Earth 02'),
+        header: const CustomHeader(text: 'Earth 01'),
         flex: 3,
       ),
       TablerColumn(
-        header: const CustomHeader(text: 'Earth 03'),
+        header: const CustomHeader(text: 'Earth 02'),
         width: 500,
       ),
-      TablerColumn(header: const CustomHeader(text: 'Earth 04')),
+      TablerColumn(header: const CustomHeader(text: 'Earth 03')),
     ];
     _controller = TablerController(
-      limit: 1,
+      limit: 25,
       onUpdate: _onTableUpdate,
-      initialList: List.generate(2, (_) => 'Hero ${index++}'),
-      totalCount: 5,
+      initialList: List.generate(25, (_) => 'Hero ${index++}'),
+      totalCount: 100,
     );
 
     super.initState();
   }
 
   Future<void> _onTableUpdate(int limit, int offset) async {
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 1));
     _controller
       ..appendItems(List.generate(limit, (_) => 'Hero ${index++}'))
       ..update();
@@ -74,36 +74,41 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Tabler<String>(
-          controller: _controller,
-          columns: _columns,
-          rowBuilder: TablerRowBuilder(
-            decoration: BoxDecoration(
-              color: Colors.red.withOpacity(0.07),
-              border: const Border(
-                bottom: BorderSide(color: Color(0xFFD6D6D6)),
-                right: BorderSide(color: Color(0xFFD6D6D6)),
-                left: BorderSide(color: Color(0xFFD6D6D6)),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Card(
+          clipBehavior: Clip.hardEdge,
+          child: Tabler<String>(
+            controller: _controller,
+            columns: _columns,
+            rowBuilder: TablerRowBuilder(
+              decoration: BoxDecoration(
+                border: Border.all(),
               ),
+              builder: (item, index) => [
+                Center(child: Text('${index + 1}')),
+                CustomCell(text: item),
+                CustomCell(text: item),
+                CustomCell(text: item),
+              ],
             ),
-            builder: (item, _) => [
-              CustomCell(text: item),
-              CustomCell(text: item),
-              CustomCell(text: item),
-              CustomCell(text: item),
-            ],
           ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           _controller
-            ..totalCount = 5
-            ..list = ['Evil 1', 'Evil 2', 'Evil 3', 'Evil 4', 'Evil 5']
+            ..list = _controller.list.map(
+              (line) {
+                if (Random.secure().nextInt(100) > 90) {
+                  return line.replaceFirst('Hero', 'Evil');
+                }
+                return line;
+              },
+            ).toList()
             ..update();
         },
-        child: const Icon(Icons.refresh),
+        child: const Icon(Icons.precision_manufacturing),
       ),
     );
   }
@@ -116,9 +121,29 @@ class CustomCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Container(
+      decoration: const BoxDecoration(
+        border: Border(
+          right: BorderSide(width: .5),
+          left: BorderSide(width: .5),
+        ),
+      ),
       padding: const EdgeInsets.all(16),
-      child: Text(text),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(text),
+          Chip(
+            avatar: const Icon(
+              Icons.star,
+              color: Colors.yellow,
+            ),
+            label: Text(
+              Random.secure().nextInt(10).toString(),
+            ),
+          )
+        ],
+      ),
     );
   }
 }
@@ -130,8 +155,15 @@ class CustomHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ColoredBox(
-      color: Colors.amber,
+    return Container(
+      decoration: const BoxDecoration(
+        border: Border(
+          right: BorderSide(width: .5),
+          left: BorderSide(width: .5),
+          bottom: BorderSide(width: 5),
+        ),
+        color: Colors.orange,
+      ),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Center(child: Text(text)),

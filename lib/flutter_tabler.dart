@@ -29,66 +29,62 @@ class Tabler<T> extends StatelessWidget {
     return BlocProvider.value(
       value: controller,
       child: BlocBuilder<TablerController<T>, List<T>>(
-        builder: (context, _) {
-          if (controller.list.isEmpty) {
-            return Center(
-              child: placeholder ??
-                  const Icon(
-                    Icons.table_rows,
-                    size: 48,
-                  ),
-            );
-          } else {
-            return Column(
-              children: [
-                Row(
-                  mainAxisAlignment: rowBuilder.mainAxisAlignment,
-                  crossAxisAlignment: rowBuilder.crossAxisAlignment,
-                  mainAxisSize: rowBuilder.mainAxisSize,
-                  textBaseline: rowBuilder.textBaseline,
-                  textDirection: rowBuilder.textDirection,
-                  verticalDirection: rowBuilder.verticalDirection,
-                  children: columns
-                      .map(
-                        (column) => _buildCell(column, column.header),
-                      )
-                      .toList(),
-                ),
-                Expanded(
-                  child: ListView.builder(
-                    controller: controller.scrollController,
-                    itemCount: controller.list.length < controller.totalCount
-                        ? controller.list.length + 1
-                        : controller.list.length,
-                    itemBuilder: (context, index) {
-                      final item = controller.itemAt(index);
-                      if (item != null) {
-                        return _buildItem(item, index);
-                      }
-                      return FutureBuilder<void>(
-                        future: controller.onUpdate(controller.limit, index),
-                        builder: (context, snapshot) {
-                          if (snapshot.hasError) {
-                            return errorBuilder?.call(snapshot.error) ??
-                                Center(
-                                  child: ErrorWidget('${snapshot.error}'),
-                                );
-                          }
-                          return Center(
-                            child: Padding(
-                              padding: const EdgeInsets.all(16),
-                              child: loadingWidget ?? const CircularProgressIndicator(),
-                            ),
-                          );
-                        },
-                      );
-                    },
-                  ),
-                ),
-              ],
-            );
-          }
-        },
+        builder: (context, _) => Column(
+          children: [
+            Row(
+              mainAxisAlignment: rowBuilder.mainAxisAlignment,
+              crossAxisAlignment: rowBuilder.crossAxisAlignment,
+              mainAxisSize: rowBuilder.mainAxisSize,
+              textBaseline: rowBuilder.textBaseline,
+              textDirection: rowBuilder.textDirection,
+              verticalDirection: rowBuilder.verticalDirection,
+              children: columns
+                  .map(
+                    (column) => _buildCell(column, column.header),
+                  )
+                  .toList(),
+            ),
+            Expanded(
+              child: controller.list.isEmpty
+                  ? Center(
+                      child: placeholder ??
+                          Text(
+                            'No rows',
+                            style: Theme.of(context).textTheme.headline4,
+                          ),
+                    )
+                  : ListView.builder(
+                      controller: controller.scrollController,
+                      itemCount: controller.list.length < controller.totalCount
+                          ? controller.list.length + 1
+                          : controller.list.length,
+                      itemBuilder: (context, index) {
+                        final item = controller.itemAt(index);
+                        if (item != null) {
+                          return _buildItem(item, index);
+                        }
+                        return FutureBuilder<void>(
+                          future: controller.onUpdate(controller.limit, index),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasError) {
+                              return errorBuilder?.call(snapshot.error) ??
+                                  Center(
+                                    child: ErrorWidget('${snapshot.error}'),
+                                  );
+                            }
+                            return Center(
+                              child: Padding(
+                                padding: const EdgeInsets.all(16),
+                                child: loadingWidget ?? const CircularProgressIndicator(),
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    ),
+            ),
+          ],
+        ),
       ),
     );
   }

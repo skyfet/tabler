@@ -1,3 +1,9 @@
+## 0.2.2
+
+* FIX: Columns are now always displayed
+* FEATURE: Example update
+
+
 ## 0.2.1
 
 * FIX: using Expanded instead of Flexible for rows
