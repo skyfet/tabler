@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_tabler/tabler.dart';
+import 'package:flutter_tabler/flutter_tabler.dart';
 
 void main() {
   runApp(const MyApp());
