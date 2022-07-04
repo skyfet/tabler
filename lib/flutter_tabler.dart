@@ -94,8 +94,8 @@ class Tabler<T> extends StatelessWidget {
 
     assert(
       children.length == columns.length,
-      'The length of the [TablerRow.children] '
-      'must match the length of the [Tabler.columns]!',
+      'The length of the list returned by [TablerRow.builder] '
+      'must match the length of the [Tabler.columns] list!',
     );
 
     final sizedChildren = columns
@@ -113,7 +113,7 @@ class Tabler<T> extends StatelessWidget {
         .toList();
 
     return Container(
-      decoration: rowBuilder.decoration,
+      decoration: rowBuilder.decorationBuilder?.call(item) ?? rowBuilder.decoration,
       height: rowBuilder.height,
       child: InkWell(
         onTap: rowBuilder.onTap != null ? () => rowBuilder.onTap!(item, index) : null,
@@ -147,9 +147,13 @@ class TablerRowBuilder<T> {
     this.onTap,
     //* Container
     this.decoration,
+    this.decorationBuilder,
     this.height,
     required this.builder,
-  });
+  }) : assert(
+          decoration == null || decorationBuilder == null,
+          'You cannot specify decoration and decorationBuilder at the same time.',
+        );
 
   final MainAxisAlignment mainAxisAlignment;
   final MainAxisSize mainAxisSize;
@@ -159,6 +163,7 @@ class TablerRowBuilder<T> {
   final TextBaseline? textBaseline;
   final void Function(T item, int index)? onTap;
   final Decoration? decoration;
+  final Decoration Function(T item)? decorationBuilder;
   final double? height;
   final List<Widget> Function(T item, int index) builder;
 }

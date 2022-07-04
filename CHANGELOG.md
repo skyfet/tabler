@@ -1,7 +1,12 @@
+## 0.3.0
+
+FEATURE: use the decorationBuilder to provide decoration based on an item value
+
+
 ## 0.2.2
 
 * FIX: Columns are now always displayed
-* FEATURE: Example update
+* FIX: Example update
 
 
 ## 0.2.1
@@ -17,7 +22,7 @@
 ## 0.1.0
 
 * BREAKING: need to use .update() for table update
-* FEATURE: example updated
+* FIX: example updated
 
 
 ## 0.0.1
