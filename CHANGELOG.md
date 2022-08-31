@@ -1,3 +1,8 @@
+## 0.3.1
+
+FIX: scrollController dispose on TablerController's close
+
+
 ## 0.3.0
 
 FEATURE: use the decorationBuilder to provide decoration based on an item value
@@ -5,13 +10,13 @@ FEATURE: use the decorationBuilder to provide decoration based on an item value
 
 ## 0.2.2
 
-* FIX: Columns are now always displayed
-* FIX: Example update
+* FIX: columns are now always displayed
+* FIX: example update
 
 
 ## 0.2.1
 
-* FIX: using Expanded instead of Flexible for rows
+* FIX: use Expanded instead of Flexible for rows
 
 
 ## 0.2.0
@@ -21,8 +26,8 @@ FEATURE: use the decorationBuilder to provide decoration based on an item value
 
 ## 0.1.0
 
-* BREAKING: need to use .update() for table update
 * FIX: example updated
+* BREAKING: need to use .update() for table update
 
 
 ## 0.0.1

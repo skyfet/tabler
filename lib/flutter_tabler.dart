@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -75,7 +73,8 @@ class Tabler<T> extends StatelessWidget {
                             return Center(
                               child: Padding(
                                 padding: const EdgeInsets.all(16),
-                                child: loadingWidget ?? const CircularProgressIndicator(),
+                                child: loadingWidget ??
+                                    const CircularProgressIndicator(),
                               ),
                             );
                           },
@@ -113,10 +112,13 @@ class Tabler<T> extends StatelessWidget {
         .toList();
 
     return Container(
-      decoration: rowBuilder.decorationBuilder?.call(item) ?? rowBuilder.decoration,
+      decoration:
+          rowBuilder.decorationBuilder?.call(item) ?? rowBuilder.decoration,
       height: rowBuilder.height,
       child: InkWell(
-        onTap: rowBuilder.onTap != null ? () => rowBuilder.onTap!(item, index) : null,
+        onTap: rowBuilder.onTap != null
+            ? () => rowBuilder.onTap!(item, index)
+            : null,
         child: Row(
           mainAxisAlignment: rowBuilder.mainAxisAlignment,
           crossAxisAlignment: rowBuilder.crossAxisAlignment,
@@ -195,6 +197,12 @@ class TablerController<T> extends Cubit<List<T>> {
   void update() => emit(list);
 
   T? itemAt(int index) => list.length <= index ? null : list.elementAt(index);
+
+  @override
+  Future<void> close() {
+    scrollController.dispose();
+    return super.close();
+  }
 }
 
 class TablerColumn {
@@ -224,4 +232,7 @@ class TablerColumn {
 
 enum TablerSorting { none, asc, desc }
 
-typedef TablerSorter = void Function(int columnIndex, TablerSorting currentSorting);
+typedef TablerSorter = void Function(
+  int columnIndex,
+  TablerSorting currentSorting,
+);
