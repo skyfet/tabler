@@ -1,3 +1,8 @@
+## 0.3.2
+
+FEATURE: Support for flutter version 3.22.2
+
+
 ## 0.3.1
 
 FIX: scrollController dispose on TablerController's close
