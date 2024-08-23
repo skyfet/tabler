@@ -1,3 +1,8 @@
+## 0.3.3
+
+FEATURE: Support for flutter version 3.24.1
+
+
 ## 0.3.2
 
 FEATURE: Support for flutter version 3.22.2
