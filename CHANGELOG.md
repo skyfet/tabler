@@ -1,3 +1,9 @@
+## 0.3.4
+
+FEATURE: Support for flutter version 3.27.3
+FEATURE: Upgrade bloc, flutter_bloc, flutter_lints to newest versions
+FIX: rename `index` variable in `main.dart` to `_heroIndex`
+
 ## 0.3.3
 
 FEATURE: Support for flutter version 3.24.1
