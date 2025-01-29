@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_tabler/flutter_tabler.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -32,7 +33,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   late final TablerController<String> _controller;
   late final List<TablerColumn> _columns;
-  int index = 1;
+  int _heroIndex = 1;
 
   @override
   void initState() {
@@ -54,7 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
     _controller = TablerController(
       limit: 25,
       onUpdate: _onTableUpdate,
-      initialList: List.generate(25, (_) => 'Hero ${index++}'),
+      initialList: List.generate(25, (_) => 'Hero ${_heroIndex++}'),
       totalCount: 100,
     );
 
@@ -64,7 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<void> _onTableUpdate(int limit, int offset) async {
     await Future.delayed(const Duration(seconds: 1));
     _controller
-      ..appendItems(List.generate(limit, (_) => 'Hero ${index++}'))
+      ..appendItems(List.generate(limit, (_) => 'Hero ${_heroIndex++}'))
       ..update();
   }
 
@@ -115,7 +116,7 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class CustomCell extends StatelessWidget {
-  const CustomCell({Key? key, required this.text}) : super(key: key);
+  const   CustomCell({Key? key, required this.text}) : super(key: key);
 
   final String text;
 

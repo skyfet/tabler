@@ -9,8 +9,8 @@ class Tabler<T> extends StatelessWidget {
     this.loadingWidget,
     this.placeholder,
     this.errorBuilder,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final TablerController<T> controller;
   final List<TablerColumn> columns;
